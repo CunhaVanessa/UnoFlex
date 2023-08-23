@@ -68,6 +68,10 @@ class ActorInterface():
         
         button_card = self.__canvas.create_image(500, 300, image=self.__dict_of_cards['card_0'])
         self.__canvas.tag_bind(button_card, "<Button-1>", lambda x: print("Comprar Carta"))
+
+        button_pilha_descarte_card = self.__canvas.create_image(645, 300, image=self.__dict_of_cards['card_6'])
+        self.__canvas.tag_bind(button_pilha_descarte_card, "<Button-1>", lambda x: print("Pilha de descarte"))
+    
     
     
     def createCardButtons(self):
@@ -76,13 +80,13 @@ class ActorInterface():
         
         # Lista de informações sobre as cartas individuais
         individual_cards = [
-            {"image": self.__dict_of_cards[f"card_0_90"], "x_position": 100, "y_position": 50},
+            {"image": self.__dict_of_cards[f"card_1_90"], "x_position": 100, "y_position": 50},
             {"image": self.__dict_of_cards[f"card_0_90"], "x_position": 100, "y_position": 150},
             {"image": self.__dict_of_cards[f"card_0_90"], "x_position": 100, "y_position": 250},
             {"image": self.__dict_of_cards[f"card_0_90"], "x_position": 100, "y_position": 350},
             {"image": self.__dict_of_cards[f"card_0_90"], "x_position": 100, "y_position": 450},
             {"image": self.__dict_of_cards[f"card_0_90"], "x_position": 100, "y_position": 550},
-            {"image": self.__dict_of_cards[f"card_0_90"], "x_position": 1175, "y_position": 50},
+            {"image": self.__dict_of_cards[f"card_1_90"], "x_position": 1175, "y_position": 50},
             {"image": self.__dict_of_cards[f"card_0_90"], "x_position": 1175, "y_position": 150},
             {"image": self.__dict_of_cards[f"card_0_90"], "x_position": 1175, "y_position": 250},
             {"image": self.__dict_of_cards[f"card_0_90"], "x_position": 1175, "y_position": 350},
@@ -90,7 +94,7 @@ class ActorInterface():
             {"image": self.__dict_of_cards[f"card_0_90"], "x_position": 1175, "y_position": 550},
            
             
-            {"image": self.__dict_of_cards[f"card_11_360"], "x_position": 350, "y_position": 550},
+            {"image": self.__dict_of_cards[f"card_2_360"], "x_position": 350, "y_position": 550},
             {"image": self.__dict_of_cards[f"card_12_360"], "x_position": 450, "y_position": 550},
             {"image": self.__dict_of_cards[f"card_13_360"], "x_position": 550, "y_position": 550},
             {"image": self.__dict_of_cards[f"card_21_360"], "x_position": 650, "y_position": 550},
@@ -118,7 +122,7 @@ class ActorInterface():
             parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
             uno_cards_directory = os.path.join(parent_directory, "src", "UNO_cards_flex")
 
-            for i in range(54):
+            for i in range(104):
                 image=Image.open(os.path.join(uno_cards_directory, f'card_{i}.png'))
                 img=image.resize((100, 150))
                 self.__dict_of_cards[f"card_{i}"] = ImageTk.PhotoImage(img)
@@ -141,3 +145,5 @@ class ActorInterface():
         self.setCanvas()
         self.createTableDesign()
         self.createCardButtons()
+
+    
