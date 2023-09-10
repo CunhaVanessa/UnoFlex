@@ -42,6 +42,7 @@ class ActorInterface():
                                lambda x: self.start_match())
 
     def startMenu(self) -> None:
+        print("Identificar Jogador(es)...")
         self.setCanvas()
         self.createMenuDesign()
         self.__window.resizable(False, False)
@@ -50,6 +51,7 @@ class ActorInterface():
         self.__window.mainloop()
 
     def createTableDesign(self) -> None:
+        print("Iniciando partida...")
         self.__background_img = PhotoImage(
             file=f"src/game_images/BackgroundMesa.png")
         background = self.__canvas.create_image(
@@ -161,6 +163,7 @@ class ActorInterface():
         print(f"Carta {index}")
 
     def loadCardImages(self) -> None:
+        print("Carregando Imagens...")
         current_directory = os.path.dirname(os.path.abspath(__file__))
         parent_directory = os.path.abspath(
             os.path.join(current_directory, os.pardir))
@@ -168,16 +171,16 @@ class ActorInterface():
             parent_directory, "src", "UNO_cards_flex")
 
         for i in range(32):
-            image = Image.open(os.path.join(
+            image = Image.open(os.path.join(  # type: ignore
                 uno_cards_directory, f'card_{i}.png'))
             img = image.resize((100, 150))
             self.__dict_of_cards[f"card_{i}"] = ImageTk.PhotoImage(img)
-            image = Image.open(os.path.join(
+            image = Image.open(os.path.join(  # type: ignore
                 uno_cards_directory, f'card_{i}.png'))
             img = image.resize((80, 130))
             self.__dict_of_cards[f"card_{i}_90"] = ImageTk.PhotoImage(
                 img.rotate(90, expand=True))
-            image = Image.open(os.path.join(
+            image = Image.open(os.path.join(  # type: ignore
                 uno_cards_directory, f'card_{i}.png'))
             img = image.resize((80, 130))
             self.__dict_of_cards[f"card_{i}_360"] = ImageTk.PhotoImage(
