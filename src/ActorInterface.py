@@ -190,7 +190,6 @@ class ActorInterface():
         self.start_table()
 
     def start_table(self) -> None:
-        self.loadCardImages()
         self.setCanvas()
         self.createTableDesign()
         self.createCardButtons()
