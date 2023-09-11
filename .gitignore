@@ -1,4 +1,7 @@
-**/*.vpp.lck
-**/*.vpp.bak_*
-**/*.pyc
-src/__pycache__
+*.vpp.lck
+*.vpp.bak_[cod]
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
