@@ -14,7 +14,7 @@ Para baixar as depêndencias execute:
 
 ### Entrega 1:
 Ricardo Romero:
-Ruan Molgero: 
+Ruan Molgero:  https://youtu.be/VgZvLL7TXkM
 Vanessa Cunha: 
 
 ### Entrega 2:
