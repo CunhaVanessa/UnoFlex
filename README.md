@@ -13,7 +13,7 @@ Para baixar as depêndencias execute:
 # links para os vídeos de apresentação:
 
 ### Entrega 1:
-Ricardo Romero:
+Ricardo Romero: https://youtu.be/cwmuq95u5LM
 Ruan Molgero:  https://youtu.be/VgZvLL7TXkM
 Vanessa Cunha: 
 
