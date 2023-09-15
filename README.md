@@ -13,21 +13,21 @@ Para baixar as depêndencias execute:
 # links para os vídeos de apresentação:
 
 ### Entrega 1:
-Ricardo Romero: https://youtu.be/cwmuq95u5LM
-Ruan Molgero:  https://youtu.be/VgZvLL7TXkM
-Vanessa Cunha: https://youtu.be/hNQVCGoK3wo
+- Ricardo Romero: https://youtu.be/cwmuq95u5LM
+- Ruan Molgero:  https://youtu.be/VgZvLL7TXkM
+- Vanessa Cunha: https://youtu.be/hNQVCGoK3wo
 
 ### Entrega 2:
-Ricardo Romero:
-Ruan Molgero: 
-Vanessa Cunha:
+- Ricardo Romero:
+- Ruan Molgero: 
+- Vanessa Cunha:
 
 ### Entrega 3:
-Ricardo Romero:
-Ruan Molgero: 
-Vanessa Cunha:
+- Ricardo Romero:
+- Ruan Molgero: 
+- Vanessa Cunha:
 
 ### Entrega 4:
-Ricardo Romero:
-Ruan Molgero: 
-Vanessa Cunha:
+- Ricardo Romero:
+- Ruan Molgero: 
+- Vanessa Cunha:
