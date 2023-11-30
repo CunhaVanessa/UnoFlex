@@ -18,16 +18,13 @@ Para baixar as depêndencias execute:
 - Vanessa Cunha: https://youtu.be/hNQVCGoK3wo
 
 ### Entrega 2:
-- Ricardo Romero:
 - Ruan Molgero: 
 - Vanessa Cunha:
 
 ### Entrega 3:
-- Ricardo Romero:
 - Ruan Molgero: 
 - Vanessa Cunha:
 
 ### Entrega 4:
-- Ricardo Romero:
 - Ruan Molgero: 
 - Vanessa Cunha:

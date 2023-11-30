@@ -10,6 +10,7 @@ class Jogador:
         self.__denunciavel = False
         self.__jogou_carta = False
         self.__comprou_carta = False
+        self.__flex = True
 
     def getId(self):
         return self.__id
@@ -31,6 +32,12 @@ class Jogador:
 
     def getJogouCarta(self):
         return self.__jogou_carta
+    
+    def getFlex(self):
+        return self.__flex
+    
+    def setFlex(self, flex):
+        self.__flex = flex
 
     def setJogouCarta(self, jogou):
         self.__jogou_carta = jogou

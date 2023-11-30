@@ -22,6 +22,7 @@ class ActorInterface(DogPlayerInterface):
         self.__inicio_mao = 0
         self.__mensagem = ''
         self.__jogo = Jogo()
+        self.__rectangle_id = None
         self.loadCardImages()
         self.startMenu()
 
@@ -170,7 +171,7 @@ class ActorInterface(DogPlayerInterface):
         # Obtenha o diretório atual do script
         diretorio_atual = os.path.dirname(os.path.abspath(__file__))
 
-        for i in range(63):
+        for i in range(98):
             caminho_imagem_card = os.path.join(
                 diretorio_atual, 'UNO_cards_flex', f'card_{i}.png')
 
@@ -186,6 +187,7 @@ class ActorInterface(DogPlayerInterface):
             image_card_270 = image_card.resize((80, 130))
             self.__dict_of_cards[f"card_{i}_270"] = ImageTk.PhotoImage(
                 image_card_270.rotate(270, expand=True))
+           
 
     def gritarUno(self):
         self.__jogo.getJogadorAtual().gritarUno()
@@ -258,23 +260,29 @@ class ActorInterface(DogPlayerInterface):
     def addCard(self) -> None:
         self.__slots_local = []
 
-        def func0(x): return self.jogarCarta(0)
-        def func1(x): return self.jogarCarta(1)
-        def func2(x): return self.jogarCarta(2)
-        def func3(x): return self.jogarCarta(3)
-        def func4(x): return self.jogarCarta(4)
-        def func5(x): return self.jogarCarta(5)
-        funcs = [func0, func1, func2, func3, func4, func5]
+        def func(i):
+            return lambda x: self.jogarCarta(i)
 
-        for i in range(6):
-            if (i+self.__inicio_mao) < len(self.__jogo.getJogadores()[self.__jogo.getLocalPosition()].getMao()):
-                self.__slots_local.append(self.__jogo.getJogadores(
-                )[self.__jogo.getLocalPosition()].getMao()[i+self.__inicio_mao])
-            if i < len(self.__slots_local):
-                button_card = self.__canvas.create_image(
-                    340+i*120, 570, image=self.__dict_of_cards[self.__slots_local[i].getFrente().getId()])
-                self.__slots_local[i] = (button_card, self.__slots_local[i])
-                self.__canvas.tag_bind(button_card, "<Button-1>", funcs[i])
+        jogador_atual = self.__jogo.getJogadores()[self.__jogo.getLocalPosition()]
+        mao_do_jogador = jogador_atual.getMao()
+        max_index = min(6, len(mao_do_jogador))
+
+        for i in range(max_index):
+            if i < len(mao_do_jogador):
+                carta = mao_do_jogador[i + self.__inicio_mao]
+                chave_carta = carta.getFrente().getId()
+
+                if chave_carta in self.__dict_of_cards:
+                    self.__slots_local.append(carta)
+                    button_card = self.__canvas.create_image(
+                        340 + i * 120, 570, image=self.__dict_of_cards[chave_carta])
+                    self.__slots_local.append((button_card, carta))
+                    self.__canvas.tag_bind(button_card, "<Button-1>", func(i))
+                else:
+                    print(f"Chave de carta não encontrada: {chave_carta}")
+
+
+
 
     def addRemoteCardRight(self) -> None:
         self.__slots_remote_right = []
@@ -312,12 +320,25 @@ class ActorInterface(DogPlayerInterface):
 
         carta = self.__jogo.getMesa().getUltimaCarta()
 
-        self.__button_cheap = self.__canvas.create_image(
-            640, 300, image=self.__dict_of_cards[carta.getFrente().getId()])
+        # Obtém apenas as chaves do dicionário (nomes das cartas)
+        keys = list(self.__dict_of_cards.keys())
+        
+        # Imprime as chaves principais do dicionário
+        print("Chaves do dicionário de cartas:", keys)
+        
+        # Verifica se a carta existe no dicionário
+        if carta.getFrente().getId() in self.__dict_of_cards:
+            self.__button_cheap = self.__canvas.create_image(
+                640, 300, image=self.__dict_of_cards[carta.getFrente().getId()])
+        else:
+            print(f"A carta {carta.getFrente().getId()} não está no dicionário de cartas.")
+
+
 
     def delete_local(self) -> None:
         for k, _ in enumerate(self.__slots_local):
-            self.__canvas.delete(self.__slots_local[k][0])
+            if self.__slots_local[k][0] is not None:
+                self.__canvas.delete(self.__slots_local[k][0])
 
     def delete_right(self) -> None:
         for k, _ in enumerate(self.__slots_remote_right):
@@ -355,35 +376,39 @@ class ActorInterface(DogPlayerInterface):
         carta = self.__jogo.getMesa().getUltimaCarta()
         cor = carta.getFrente().getId()[0]
 
-        if cor == "l":
-            quadrado1 = 'vermelho'
-            quadrado2 = 'azul'
-            quadrado3 = 'amarelo'
-            quadrado4 = 'verde'
+        retangulo = 'retangulo'
+        vermelho = 'vermelho'
+        azul = 'azul'
+        amarelo = 'amarelo'
+        verde = 'verde'
 
-        self.__vermelho = PhotoImage(file=f"src/table_images/{quadrado1}.png")
+        self.__rectangle = PhotoImage(file = f"/table_images/{retangulo}.png")
+        self.__rectangle_id = self.__canvas.create_image(640, 360, image=self.__rectangle)
+    
+        self.__vermelho = PhotoImage(file=f"src/table_images/{vermelho}.png")
         self.__button1_id = self.__canvas.create_image(
             745, 255, image=self.__vermelho)
         self.__canvas.tag_bind(
-            self.__button1_id, "<Button-1>", lambda x:  self.mudaCor(quadrado1))
+            self.__button1_id, "<Button-1>", lambda x:  self.mudaCor(vermelho))
 
-        self.__azul = PhotoImage(file=f"src/table_images/{quadrado2}.png")
+        self.__azul = PhotoImage(file=f"src/table_images/{azul}.png")
         self.__button2_id = self.__canvas.create_image(
             535, 255, image=self.__azul)
         self.__canvas.tag_bind(
-            self.__button2_id, "<Button-1>", lambda x: self.mudaCor(quadrado2))
+            self.__button2_id, "<Button-1>", lambda x: self.mudaCor(azul))
 
-        self.__amarelo = PhotoImage(file=f"src/table_images/{quadrado3}.png")
+        self.__amarelo = PhotoImage(file=f"src/table_images/{amarelo}.png")
         self.__button3_id = self.__canvas.create_image(
             745, 465, image=self.__amarelo)
         self.__canvas.tag_bind(
-            self.__button3_id, "<Button-1>", lambda x: self.mudaCor(quadrado3))
+            self.__button3_id, "<Button-1>", lambda x: self.mudaCor(amarelo))
 
-        self.__verde = PhotoImage(file=f"src/table_images/{quadrado4}.png")
+        self.__verde = PhotoImage(file=f"src/table_images/{verde}.png")
         self.__button4_id = self.__canvas.create_image(
             535, 465, image=self.__verde)
         self.__canvas.tag_bind(
-            self.__button4_id, "<Button-1>", lambda x: self.mudaCor(quadrado4))
+            self.__button4_id, "<Button-1>", lambda x: self.mudaCor(verde))
+
 
         # jogo.mudarCor
 
@@ -393,29 +418,31 @@ class ActorInterface(DogPlayerInterface):
         carta = self.__jogo.getMesa().getUltimaCarta()
         carta.getFrente().setCor(cor)
 
-        cores_mais_dois = {
-            'amarelo': 'card_1',
-            'vermelho': 'card_1',
-            'azul': 'card_1',
-            'verde': 'card_1'
+        cores_coringa = {
+            'amarelo': 'card_7',
+            'vermelho': 'card_8',
+            'azul': 'card_9',
+            'verde': 'card_10'
         }
 
-        cores_coringa = {
-            'amarelo': 'card_1',
-            'vermelho': 'card_1',
-            'azul': 'card_1',
-            'verde': 'card_1'
-        }
 
         print(carta.getFrente().getSimbolo())
-        if carta.getFrente().getSimbolo() == 'mais_dois':
-            carta.getFrente().setId(cores_mais_dois[cor])
-            self.__jogo.getMesa().setUltimaCarta(carta)
-        elif carta.getFrente().getSimbolo() == 'troca_cor':
+        if carta.getFrente().getSimbolo() == 'todos_mais_dois':
             carta.getFrente().setId(cores_coringa[cor])
             self.__jogo.getMesa().setUltimaCarta(carta)
-        ################
-        # ficar no Actor
+        
+        elif carta.getFrente().getSimbolo() == 'proximo_mais_dois':
+            carta.getFrente().setId(cores_coringa[cor])
+            self.__jogo.getMesa().setUltimaCarta(carta)
+        
+        elif carta.getFrente().getSimbolo() == 'mais_quatro':
+            carta.getFrente().setId(cores_coringa[cor])
+            self.__jogo.getMesa().setUltimaCarta(carta)
+
+        elif carta.getFrente().getSimbolo() == 'flex':
+            carta.getFrente().setId(cores_coringa[cor])
+            self.__jogo.getMesa().setUltimaCarta(carta)
+
         self.atualizarInterface()
 
         if self.__jogo.getJogadorAtual().getId() == self.__jogo.getJogadores()[self.__jogo.getLocalPosition()].getId():
