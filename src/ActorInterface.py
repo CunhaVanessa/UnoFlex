@@ -123,7 +123,7 @@ class ActorInterface(DogPlayerInterface):
         message = self.__dog_server_interface.initialize(player_name, self)
         messagebox.showinfo(message=message)
         self.__window.mainloop()
-
+        
     def createTableDesign(self) -> None:
         self.__background_img = PhotoImage(
             file=f"src/table_images/background.png")
@@ -259,28 +259,25 @@ class ActorInterface(DogPlayerInterface):
 
     def addCard(self) -> None:
         self.__slots_local = []
+            
+        func0 = lambda x: self.jogarCarta(0)
+        func1 = lambda x: self.jogarCarta(1)
+        func2 = lambda x: self.jogarCarta(2)
+        func3 = lambda x: self.jogarCarta(3)
+        func4 = lambda x: self.jogarCarta(4)
+        func5 = lambda x: self.jogarCarta(5)
+        funcs = [func0, func1, func2, func3, func4, func5]
 
-        def func(i):
-            return lambda x: self.jogarCarta(i)
-
-        jogador_atual = self.__jogo.getJogadores()[self.__jogo.getLocalPosition()]
-        mao_do_jogador = jogador_atual.getMao()
-        max_index = min(6, len(mao_do_jogador))
-
-        for i in range(max_index):
-            if i < len(mao_do_jogador):
-                carta = mao_do_jogador[i + self.__inicio_mao]
-                chave_carta = carta.getFrente().getId()
-
-                if chave_carta in self.__dict_of_cards:
-                    self.__slots_local.append(carta)
-                    button_card = self.__canvas.create_image(
-                        340 + i * 120, 570, image=self.__dict_of_cards[chave_carta])
-                    self.__slots_local.append((button_card, carta))
-                    self.__canvas.tag_bind(button_card, "<Button-1>", func(i))
-                else:
-                    print(f"Chave de carta não encontrada: {chave_carta}")
-
+        # Limitar o loop ao tamanho da mão disponível
+        for i, carta in enumerate(self.__jogo.getJogadores()[self.__jogo.getLocalPosition()].getMao()):
+            if i >= 6:
+                break  # Sair do loop se já tivermos 6 cartas
+            self.__slots_local.append(carta)
+            frente_id = carta.getFrente().getId()
+            if frente_id in self.__dict_of_cards:
+                button_card = self.__canvas.create_image(340+i*120, 570, image=self.__dict_of_cards[frente_id])
+                self.__slots_local[i] = (button_card, carta)
+                self.__canvas.tag_bind(button_card, "<Button-1>", funcs[i])
 
 
 
@@ -333,13 +330,13 @@ class ActorInterface(DogPlayerInterface):
         else:
             print(f"A carta {carta.getFrente().getId()} não está no dicionário de cartas.")
 
-
-
     def delete_local(self) -> None:
-        for k, _ in enumerate(self.__slots_local):
-            if self.__slots_local[k][0] is not None:
-                self.__canvas.delete(self.__slots_local[k][0])
+        if isinstance(self.__slots_local, list):
+            for k, _ in enumerate(self.__slots_local):
+                if isinstance(self.__slots_local[k], tuple) and len(self.__slots_local[k]) > 0:
+                    self.__canvas.delete(self.__slots_local[k][0])
 
+            
     def delete_right(self) -> None:
         for k, _ in enumerate(self.__slots_remote_right):
             self.__canvas.delete(self.__slots_remote_right[k][0])
@@ -382,7 +379,7 @@ class ActorInterface(DogPlayerInterface):
         amarelo = 'amarelo'
         verde = 'verde'
 
-        self.__rectangle = PhotoImage(file = f"/table_images/{retangulo}.png")
+        self.__rectangle = PhotoImage(file = f"src/table_images/{retangulo}.png")
         self.__rectangle_id = self.__canvas.create_image(640, 360, image=self.__rectangle)
     
         self.__vermelho = PhotoImage(file=f"src/table_images/{vermelho}.png")

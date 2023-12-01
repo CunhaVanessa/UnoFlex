@@ -36,7 +36,7 @@ class Baralho():
         for i in range(4):
             for j in range(1, 9):
                 numerica_flex = Face(
-                    f'card_{pos_flex[i]+j-1}', cores[i], str(j), 'numerica_flex')
+                    f'card_{pos_flex[i]+j-1}', cores[i], str(j), 'numerica')
                 for _ in range(1):
                     aux.append(numerica_flex)
 

@@ -120,6 +120,13 @@ class Jogo:
 
         if jogador.getDenunciavel():
             jogador.setDenunciavel(False)
+    
+    def mudarFlex(self, jogador):
+
+        if jogador.getFlex():
+            jogador.setFlex(False)
+        else: 
+            jogador.setFlex(True)
 
     def jogarCarta(self, index):
         valida = False
@@ -207,16 +214,25 @@ class Jogo:
                         index = (k + self.__ordem) % 3
                         self.setProximoJogador(self.getJogadores()[index])
                         break
-            elif efeito == "mais_cinco":
-                self.darCarta(self.getProximoJogador(), 5)
-            elif efeito == "pular_todos":
+            elif efeito == "mais_quatro":
+                self.darCarta(self.getProximoJogador(), 4)
+            elif efeito == "pular_todos_flex":
                 for k, jogador in enumerate(self.__jogadores):
                     if jogador.getId() == self.getProximoJogador().getId():
                         index = (k + 2 * self.__ordem) % 3
                         self.setProximoJogador(self.getJogadores()[index])
                         break
-            elif efeito == "mais_dois":
+            elif efeito == "proximo_mais_dois":
                 self.darCarta(self.getProximoJogador(), 2)
+            elif efeito == "todos_mais_um":
+                for jogador in self.getJogadores():
+                    self.darCarta(jogador, 1)
+            elif efeito == "todos_mais_dois":
+                for jogador in self.getJogadores():
+                    self.darCarta(jogador, 2)
+            elif efeito == "flex":
+                for jogador in self.getJogadores():
+                    self.mudarFlex(jogador)
 
     def verificarTurno(self) -> bool:
         return self.getLocalId() == self.getJogadorAtual().getId()
