@@ -5,6 +5,7 @@ import requests
 from dog.start_status import StartStatus
 import os
 
+
 class DogProxy:
     def __init__(self):
         super().__init__()
@@ -26,18 +27,16 @@ class DogProxy:
         self.dog_actor = an_actor
         if self.player_name == "":
             self.player_name = "player" + str(self.player_id)
-        
-        # Construa o caminho completo para o arquivo de configuração
-        config_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config', 'game.id')
-        
         try:
-            config_file = open(config_file_path, "r")
+            current_directory = os.path.dirname(os.path.abspath(__file__))
+            game_id_path = os.path.join(current_directory, "..", "config", "game.id")
+            config_file = open(game_id_path, "r")
             self.game_id = config_file.read()
             config_file.close()
         except FileNotFoundError:
             self.status = 0
             return "Arquivo de configuração do jogo não encontrado"
-
+        
         resp = self.register_player(self.player_name, self.player_id, self.game_id)
         result = resp.status_code
         if result == 200:
@@ -50,7 +49,10 @@ class DogProxy:
         else:
             self.status = 1
             message = "Você está sem conexão"
+        
         return message
+
+
 
     def generate_player_id(self):
         from time import time

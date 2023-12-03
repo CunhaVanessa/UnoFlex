@@ -7,13 +7,13 @@ class Face:
 
     def getId(self) -> str:
         return self.__id
-
+    
     def setId(self, id: str) -> None:
-        self.__id = id
+        self.__id = id 
 
     def getCor(self) -> str:
         return self.__cor
-
+    
     def setCor(self, cor: str) -> None:
         self.__cor = cor
 
