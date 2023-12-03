@@ -189,8 +189,16 @@ class Jogo:
             or carta.getFrente().getTipo() == "colorida_poder"
         ):
             efeito = carta.getFrente().getSimbolo()
-            if efeito == "mais_um":
-                self.darCarta(self.getProximoJogador(), 1)
+            if efeito == "mais_dois":
+                self.darCarta(self.getProximoJogador(), 2)  
+            
+            elif efeito == "pular_vez":
+                for k, jogador in enumerate(self.getJogadores()):
+                    if jogador.getId() == self.getProximoJogador().getId():
+                        index = (k + self.__ordem) % 3
+                        self.setProximoJogador(self.getJogadores()[index])
+                        break  
+            
             elif efeito == "inverter_ordem":
                 self.__ordem = -self.__ordem
                 for k, i in enumerate(self.__jogadores):
@@ -199,23 +207,23 @@ class Jogo:
                             (k + self.__ordem) % 3
                         ]
                         break
-            elif efeito == "pular_vez":
-                for k, jogador in enumerate(self.getJogadores()):
-                    if jogador.getId() == self.getProximoJogador().getId():
-                        index = (k + self.__ordem) % 3
-                        self.setProximoJogador(self.getJogadores()[index])
-                        break
+                    
+            elif efeito == "mais_quatro":
+                self.darCarta(self.getProximoJogador(), 4)
 
-            elif efeito == "mais_cinco":
-                self.darCarta(self.getProximoJogador(), 5)
-            elif efeito == "pular_todos":
-                for k, jogador in enumerate(self.__jogadores):
-                    if jogador.getId() == self.getProximoJogador().getId():
-                        index = (k + 2 * self.__ordem) % 3
-                        self.setProximoJogador(self.getJogadores()[index])
-                        break
             elif efeito == "mais_dois":
                 self.darCarta(self.getProximoJogador(), 2)
+            
+            # todos compram mais dois
+            # cartas flex
+
+           # elif efeito == "pular_todos":
+            #    for k, jogador in enumerate(self.__jogadores):
+            #        if jogador.getId() == self.getProximoJogador().getId():
+            #            index = (k + 2 * self.__ordem) % 3
+            #            self.setProximoJogador(self.getJogadores()[index])
+            #           break
+
 
     def verificarTurno(self) -> bool:
         return self.getLocalId() == self.getJogadorAtual().getId()

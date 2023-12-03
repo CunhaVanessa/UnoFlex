@@ -23,30 +23,46 @@ class Baralho():
         pos_flex = [67,78,89,100]
 
         for i in range(4):
-            for j in range(1,10):
+            for j in range(1,8):
+                
+                # cartas convencionais
                 face_numerica = Face(f'card_{pos[i]+j-1}',cores[i],str(j),'numerica')
-                for _ in range(2):
+                for _ in range(1):
                     aux.append(face_numerica)
+                
+                # cartas flex
+                face_numerica_flex = Face(f'card_{pos_flex[i]+j-1}',cores[i],str(j),'numerica')
+                for _ in range(1):
+                    aux.append(face_numerica_flex)
+            
 
-            face_compre_um = Face(f'card_{pos[i]+10}',cores[i],'mais_um','colorida_poder')
-            for _ in range(2):
-                aux.append(face_compre_um)
+            face_compre_dois = Face(f'card_{pos[i]+9}',cores[i],'mais_dois','colorida_poder')
+            for _ in range(1):
+                aux.append(face_compre_dois)
 
-            face_pular_vez = Face(f'card_{pos[i]+11}',cores[i],'pular_vez','colorida_poder')
-            for _ in range(2):
+            face_pular_vez = Face(f'card_{pos[i]+10}',cores[i],'pular_vez','colorida_poder')
+            for _ in range(1):
                 aux.append(face_pular_vez)
             
-            face_inverter_ordem = Face(f'card_{pos[i]+12}',cores[i],'inverter_ordem','colorida_poder')
-            for _ in range(2):
+            face_inverter_ordem = Face(f'card_{pos[i]+11}',cores[i],'inverter_ordem','colorida_poder')
+            for _ in range(1):
                 aux.append(face_inverter_ordem)
 
-            face_coringa1 = Face(f'card_1',cores[i],'troca_cor','coringa')
+            face_coringa_flex = Face(f'card_3',cores[i],'troca_cor','coringa')
             for _ in range(2):
-                aux.append(face_coringa1)
+                aux.append(face_coringa_flex)
 
-            face_mais_dois = Face(f'card_6',cores[i],'mais_dois','coringa')
-            for _ in range(2):
-                aux.append(face_mais_dois)
+            face_mais_quatro = Face(f'card_8',cores[i],'mais_quatro','coringa')
+            for _ in range(4):
+                aux.append(face_mais_quatro)
+            
+            face_proximo_mais_dois = Face(f'card_13',cores[i],'proximo_mais_dois','coringa')
+            for _ in range(4):
+                aux.append(face_proximo_mais_dois)
+            
+            face_todos_mais_dois = Face(f'card_18',cores[i],'todos_mais_dois','coringa')
+            for _ in range(4):
+                aux.append(face_todos_mais_dois)
             
         
             for _ in range(10):
