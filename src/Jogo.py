@@ -119,6 +119,10 @@ class Jogo:
 
         if jogador.getDenunciavel():
             jogador.setDenunciavel(False)
+    
+    def mostrarEnergia(self):
+        energia = self.getJogadorAtual().getFlex()
+        return energia
 
     def jogarCarta(self, index):
         valida = False
@@ -153,15 +157,21 @@ class Jogo:
             return True
 
         elif self.getMesa().getUltimaCarta().getFrente().getCor() == carta.getFrente().getCor():
+            print("É da mesma cor")
             return True
 
         elif (
             self.getMesa().getUltimaCarta().getFrente().getSimbolo()
-            == carta.getFrente().getSimbolo()
-        ):
+            == carta.getFrente().getSimbolo()):
+            print("É do mesmo simbolo")
+            return True
+        
+        elif carta.getFrente().getFlex() and self.getJogadorAtual().getFlex():
+            print("A carta e o jogador atual possuem a propriedade flex == True")
             return True
 
         else:
+            print(carta)
             return False
 
     def verificarUNO(self):
@@ -190,13 +200,43 @@ class Jogo:
         ):
             efeito = carta.getFrente().getSimbolo()
             if efeito == "mais_dois":
-                self.darCarta(self.getProximoJogador(), 2)  
+                    for jogador in self.__jogadores:
+                        self.darCarta(jogador, 2)  
+                        print("mais dois")
+
+            elif efeito == "mais_dois_flex":
+                jogador_atual = self.getJogadorAtual()
+                if jogador_atual.getFlex():
+                    self.darCarta(self.getProximoJogador(), 1)
+                    print("mais dois flex 1")
+                else: 
+                    self.darCarta(jogador, 2) 
+                    print("mais dois flex 2")
+            
+            elif efeito == "pular_vez_flex":
+                jogador_atual = self.getJogadorAtual()
+                
+                if jogador_atual.getFlex():
+                       for k, jogador in enumerate(self.__jogadores):
+                         if jogador.getId() == self.getProximoJogador().getId():
+                            index = (k + 2 * self.__ordem) % 3
+                            self.setProximoJogador(self.getJogadores()[index])
+                            print("pular vez flex 1")
+                            break
+                else:
+                    for k, jogador in enumerate(self.getJogadores()):
+                            if jogador.getId() == self.getProximoJogador().getId():
+                                index = (k + self.__ordem) % 3
+                                self.setProximoJogador(self.getJogadores()[index])
+                                print("pular vez flex 2")
+                                break  
             
             elif efeito == "pular_vez":
                 for k, jogador in enumerate(self.getJogadores()):
                     if jogador.getId() == self.getProximoJogador().getId():
                         index = (k + self.__ordem) % 3
                         self.setProximoJogador(self.getJogadores()[index])
+                        print("pular vez")
                         break  
             
             elif efeito == "inverter_ordem":
@@ -206,23 +246,41 @@ class Jogo:
                         self.__proximo_jogador = self.__jogadores[
                             (k + self.__ordem) % 3
                         ]
+                        print("inverter ordem")
                         break
                     
             elif efeito == "mais_quatro":
                 self.darCarta(self.getProximoJogador(), 4)
+                print("mais quatro")
 
             elif efeito == "mais_dois":
                 self.darCarta(self.getProximoJogador(), 2)
+                print("mais dois")
             
-            # todos compram mais dois
-            # cartas flex
+            elif efeito == "proximo_mais_dois":
+                self.darCarta(self.getProximoJogador(), 2)
+                print("proximo mais dois")
 
-           # elif efeito == "pular_todos":
-            #    for k, jogador in enumerate(self.__jogadores):
-            #        if jogador.getId() == self.getProximoJogador().getId():
-            #            index = (k + 2 * self.__ordem) % 3
-            #            self.setProximoJogador(self.getJogadores()[index])
-            #           break
+            elif efeito == "todos_mais_dois":
+                for jogador in self.__jogadores:
+                    self.darCarta(jogador, 2)
+                    print("todos mais dois")
+        
+            elif efeito == "muda_flex":
+                for jogador in self.__jogadores:
+                    jogador.setFlex(not jogador.getFlex())
+                    print("muda flex")
+
+            elif efeito == "numerica_flex":
+                jogador_atual = self.getJogadorAtual()
+                jogador_atual.setFlex(not jogador_atual.getFlex())
+                print("numerica flex")
+
+            elif efeito == "troca_cor":
+                for jogador in self.__jogadores:
+                    jogador.setFlex(not jogador.getFlex())
+                    print("troca cor")
+            
 
 
     def verificarTurno(self) -> bool:
@@ -285,7 +343,7 @@ class Jogo:
         for carta in baralho:
             frente = carta["_Carta__frente"]
             
-            frente = Face(frente["_Face__id"], frente["_Face__cor"], frente["_Face__simbolo"], frente["_Face__tipo"])
+            frente = Face(frente["_Face__id"], frente["_Face__cor"], frente["_Face__simbolo"], frente["_Face__tipo"], frente["_Face__flex"])
             
             baralho_list.append(Carta(frente))
 
@@ -295,7 +353,7 @@ class Jogo:
 
         frente = carta_mesa["_Carta__frente"]
         
-        frente = Face(frente["_Face__id"], frente["_Face__cor"], frente["_Face__simbolo"], frente["_Face__tipo"])
+        frente = Face(frente["_Face__id"], frente["_Face__cor"], frente["_Face__simbolo"], frente["_Face__tipo"], frente["_Face__flex"])
 
         carta_mesa = Carta(frente)
 
@@ -310,7 +368,7 @@ class Jogo:
         for carta in mao:
             frente = carta["_Carta__frente"]
             
-            frente = Face(frente["_Face__id"], frente["_Face__cor"], frente["_Face__simbolo"], frente["_Face__tipo"])
+            frente = Face(frente["_Face__id"], frente["_Face__cor"], frente["_Face__simbolo"], frente["_Face__tipo"], frente["_Face__flex"])
 
             mao_list.append(Carta(frente))
 
@@ -325,7 +383,7 @@ class Jogo:
         for carta in mao:
             frente = carta["_Carta__frente"]
             
-            frente = Face(frente["_Face__id"], frente["_Face__cor"], frente["_Face__simbolo"], frente["_Face__tipo"])
+            frente = Face(frente["_Face__id"], frente["_Face__cor"], frente["_Face__simbolo"], frente["_Face__tipo"], frente["_Face__flex"])
             
             mao_list.append(Carta(frente))
 
@@ -341,7 +399,7 @@ class Jogo:
         for carta in mao:
             frente = carta["_Carta__frente"]
             
-            frente = Face(frente["_Face__id"], frente["_Face__cor"], frente["_Face__simbolo"], frente["_Face__tipo"])
+            frente = Face(frente["_Face__id"], frente["_Face__cor"], frente["_Face__simbolo"], frente["_Face__tipo"], frente["_Face__flex"])
             
             mao_list.append(Carta(frente))
 

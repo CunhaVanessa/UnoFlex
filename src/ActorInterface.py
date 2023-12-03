@@ -48,7 +48,6 @@ class ActorInterface(DogPlayerInterface):
             mao = self.__jogo.getJogadorAtual().getMao()
             if index < len(mao):
                 carta = mao[index]
-                print(f"A carta jogada foi: {carta}")
                 self.__jogo.jogarCarta(index)
                 self.atualizarInterface()
                 if not self.__jogo.getJogadorAtual().getMao():
@@ -149,8 +148,17 @@ class ActorInterface(DogPlayerInterface):
         button_card = self.__canvas.create_image(500, 300, image=self.__dict_of_cards['card_0'])
         self.__canvas.tag_bind(button_card, "<Button-1>", lambda x: self.comprar())
 
+        button_energy_card = self.__canvas.create_image(375, 300, image=self.__dict_of_cards['card_2'])
+        self.__canvas.tag_bind(button_energy_card, "<Button-1>", lambda x: self.mostrarEnergia())
+
         self.__mesage_var = self.__canvas.create_text(150,25, text=self.__mensagem, fill='white', font=('serif',16,'bold'))
     
+    def mostrarEnergia(self):
+        jogador = self.__jogo.getJogadorAtual()  # obtém o jogador atual do jogo
+        nome = jogador.getNome()  # obtém o nome do jogador
+        energia = jogador.getFlex()  # obtém o estado da energia
+        print(f"Nome do jogador: {nome}, Energia: {energia}")
+
     def loadCardImages(self) -> None:
         for i in range(110):
             image=Image.open(f'src/UNO_cards_flex/card_{i}.png')

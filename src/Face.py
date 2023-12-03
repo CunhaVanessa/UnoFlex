@@ -1,9 +1,11 @@
 class Face:
-    def __init__(self, id: str, cor: str, simbolo: str, tipo: str) -> None:
+    def __init__(self, id: str, cor: str, simbolo: str, tipo: str, flex:bool) -> None:
         self.__id = id
         self.__cor = cor
         self.__simbolo = simbolo
         self.__tipo = tipo
+        self.__flex = flex 
+
 
     def getId(self) -> str:
         return self.__id
@@ -22,3 +24,9 @@ class Face:
 
     def getTipo(self) -> str:
         return self.__tipo
+    
+    def getFlex(self):
+        return self.__flex
+
+    def setFlex(self, flex):
+        self.__flex = flex

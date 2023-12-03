@@ -10,6 +10,8 @@ class Jogador:
         self.__denunciavel = False
         self.__jogou_carta = False
         self.__comprou_carta = False
+        self.__flex = True
+
 
     def getId(self):
         return self.__id
@@ -59,7 +61,13 @@ class Jogador:
     def verificarDenunciavel(self):
         if len(self.__mao) == 1: 
             self.__denunciavel = True
-
+    
+    def getFlex(self):
+        return self.__flex
+    
+    def setFlex(self, flex):
+        self.__flex = flex
+    
     def to_json(self) -> dict:
         a = json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
         json_acceptable_string = a.replace("'", "\"")
